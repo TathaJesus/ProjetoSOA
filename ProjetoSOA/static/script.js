@@ -2,12 +2,10 @@ const apiProdutos = "http://127.0.0.1:5001/produtos";
 const apiCarrinho = "http://127.0.0.1:5002/carrinho";
 const apiPagamento = "http://127.0.0.1:5003/pagamento";
 
-// Função para OBTER dados do carrinho (nova função)
 async function obterCarrinho() {
     const res = await fetch(apiCarrinho);
     return await res.json();
 }
-// Limpar carrinho após compra
 async function limparCarrinho() {
     try {
         await fetch(apiCarrinho, {
@@ -18,9 +16,8 @@ async function limparCarrinho() {
         console.error("Erro ao limpar carrinho:", error);
     }
 }
-// Função para ATUALIZAR a interface do carrinho (mantém o mesmo nome)
 async function atualizarCarrinho() {
-    const itens = await obterCarrinho(); // Usa a nova função
+    const itens = await obterCarrinho();
     
     const lista = document.getElementById("carrinho");
     lista.innerHTML = "";
@@ -54,8 +51,6 @@ async function finalizarPagamento() {
             ${dados.mensagem}
             </div>
         `;
-
-        // LIMPAR CARRINHO APÓS PAGAMENTO BEM-SUCEDIDO
         if (dados.status === 'sucesso') {
             await limparCarrinho();
         }
@@ -72,7 +67,6 @@ async function finalizarPagamento() {
     }
 }
 
-// Restante do código mantém igual...
 async function carregarProdutos() {
     const res = await fetch(apiProdutos);
     const produtos = await res.json();
@@ -106,6 +100,5 @@ async function adicionarCarrinho(idProduto) {
     atualizarCarrinho();
 }
 
-// Inicialização
 carregarProdutos();
 atualizarCarrinho();
